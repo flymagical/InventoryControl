@@ -11,7 +11,6 @@ namespace InventoryControl.Models
         public Guid Id { get; set; }
         public string Nama { get; set; }
         public Guid SatuanId { get; set; }
-        public int Stok { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
@@ -20,5 +19,6 @@ namespace InventoryControl.Models
         [ForeignKey("SatuanId")]
         public MstSatuan MstSatuan { get; set; }
         public ICollection<RequestItem> RequestItem { get; set; }
+        public ICollection<Stok> Stok { get; set; }
     }
 }
