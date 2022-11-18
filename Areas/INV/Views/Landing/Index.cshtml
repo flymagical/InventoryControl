@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Landing Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header>
+    <h2>Landing Page</h2>
+</header>
+
+<section>
+    <nav>
+        <ul>
+            <li><a href="#">Landing</a></li>
+            <li><a href="#">Master Satuan</a></li>
+            <li><a href="#">Master Item</a></li>
+            <li><a href="#">Stok</a></li>
+        </ul>
+    </nav>
+
+    <article>
+        <h1>@ViewData["Title"]</h1>
+        <p>This is landing page!</p>
+    </article>
+</section>
+
+<footer>
+    <p>Footer</p>
+</footer>
+
+
+@section Styles{
+    <link href="~/css/landing.css" rel="stylesheet" />
+}
+

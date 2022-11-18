@@ -23,10 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\INV\Controllers\" />
     <Folder Include="Areas\INV\Data\" />
     <Folder Include="Areas\INV\Models\" />
-    <Folder Include="Areas\INV\Views\" />
   </ItemGroup>
 
 </Project>

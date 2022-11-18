@@ -8,7 +8,6 @@ D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\InventoryControl.
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\InventoryControl.pdb
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\InventoryControl.Views.dll
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\InventoryControl.Views.pdb
-D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.csproj.AssemblyReference.cache
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.GeneratedMSBuildEditorConfig.editorconfig
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.AssemblyInfoInputs.cache
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.AssemblyInfo.cs
@@ -152,3 +151,5 @@ D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\ru\Microsoft.Code
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.csproj.AssemblyReference.cache
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Landing\Index.cshtml.g.cs

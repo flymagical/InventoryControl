@@ -1,8 +1,43 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="card">
+    <div id="card-content">
+        <div id="card-title">
+            <h2>@ViewData["Title"]</h2>
+            <div class="underline-title"></div>
+        </div>
+        <form method="post" class="form">
+            <label for="user-username" style="padding-top:13px">
+                &nbsp;Username
+            </label>
+            <input id="user-username" class="form-content" type="username" name="username" autocomplete="on" required />
+            <div class="form-border"></div>
+            <label for="user-password" style="padding-top:22px">
+                &nbsp;Password
+            </label>
+            <input id="user-password" class="form-content" type="password" name="password" required />
+            <div class="form-border"></div>
+            <a href="#">
+                <legend id="forgot-pass">Forgot password?</legend>
+            </a>
+            <input id="submit-btn" type="button" name="submit" value="LOGIN" />
+            <a href="#" id="signup">Don't have account yet?</a>
+        </form>
+    </div>
 </div>
+
+
+@section Scripts{ 
+<script type="text/javascript">
+        $("#submit-btn").click(function () {
+            var landingPageUrl = '@Url.Action("Index", "Landing", new {Area = "INV" })';
+
+            redirectToUrl(landingPageUrl);
+        });
+
+        function redirectToUrl(url) {
+            $(location).attr('href', url);
+        }
+</script>
+}
