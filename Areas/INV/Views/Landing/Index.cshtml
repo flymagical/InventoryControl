@@ -1,4 +1,4 @@
-﻿
+﻿@model List<InventoryControl.Models.RequestHeader>
 @{
     ViewData["Title"] = "Landing Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,7 +20,42 @@
 
     <article>
         <h1>@ViewData["Title"]</h1>
-        <p>This is landing page!</p>
+        @foreach (var table in Model)
+        {
+            <table border="1" style="width:100%;border-collapse:collapse;">
+                <tr>
+                    <td>Request Id</td>
+                    <td>Created By</td>
+                    <td>Created Date</td>
+                </tr>
+                <tr>
+                    <td>@table.Id.ToString()</td>
+                    <td>@table.CreatedBy.ToString()</td>
+                    <td>@table.CreatedDate?.ToString("yyyy-mmm-dd")</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <table border="1" style="margin: 5px 5px 5px 5px; width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td>Id</td>
+                                <td>Nama Barang</td>
+                                <td>Jumlah</td>
+                            </tr>
+                            @foreach(var item in table.RequestItem)
+                            {
+                                <tr>
+                                    <td>@item.Id.ToString()</td>
+                                    <td>@item.MstItem.Nama</td>
+                                    <td>@item.Jumlah</td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+
+
     </article>
 </section>
 
