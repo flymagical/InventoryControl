@@ -31,7 +31,7 @@
 @section Scripts{ 
 <script type="text/javascript">
         $("#submit-btn").click(function () {
-            var landingPageUrl = '@Url.Action("Index", "Landing", new {Area = "INV" })';
+            var landingPageUrl = '@Url.Action("Index", "Dashboard", new {Area = "INV" })';
 
             redirectToUrl(landingPageUrl);
         });

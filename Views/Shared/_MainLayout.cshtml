@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - InventoryControl</title>
+    <link rel="stylesheet" href="~/css/main.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <h2>INVENTORY CONTROL BARANG PERSEDIAAN</h2>
+    </header>
+
+    <section>
+        <div class="tab">
+            <a href="@Url.Action("Index", "Dashboard", new {Area="INV" })" class="navbar-link">Dashboard</a>
+            <a href="@Url.Action("Index", "Permintaan", new {Area="INV" })" class="navbar-link">Permintaan</a>
+            @*<button class="tablinks" onclick="openCity(event, 'PermintaanBidang')" id="defaultOpen">Pengeluaran Barang</button>
+            <button class="tablinks" onclick="openCity(event, 'Prediksi')">Prediksi</button>
+            <button class="tablinks" onclick="openCity(event, 'StokBarang')">Stok Barang</button>
+            <button class="tablinks" onclick="openCity(event, 'MasterBarang')">Master Barang</button>
+            <button class="tablinks" onclick="openCity(event, 'MasterSatuan')">Master Satuan</button>*@
+        </div>
+
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script type="text/javascript">
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
+        @RenderSection("Scripts", required: false)
+    </section>
+</body>
+</html>

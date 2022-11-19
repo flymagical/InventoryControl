@@ -1,0 +1,140 @@
+﻿@font-face {
+    font-family: roboto;
+    src: url(../fonts/Roboto-Black.ttf);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    /*font-family: Arial, Helvetica, sans-serif;*/
+    font-family: roboto;
+    margin:0;
+}
+
+/* Style the header */
+header {
+    background: #86134c;
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+    /*font-family: "Raleway Thin", sans-serif;*/
+    color: white;
+}
+
+/* Container for flexboxes */
+section {
+    display: -webkit-flex;
+    display: flex;
+}
+
+/* Style the navigation menu */
+.tab {
+    float: left;
+    /*border: 1px solid #bfc1c2;*/
+    background-color: #9c4e75;
+    color: #ffffff;
+    width: 20%;
+    height: auto;
+    min-height:600px;
+    padding-top: -5px !important;
+    font-family: roboto;
+}
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        display: block;
+        background-color: inherit;
+        color: #ffffff;
+        padding: 15px 10px;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 15px;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #86134c;
+        }
+
+        /* Create an active/current "tab button" class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: none;
+    width: 70%;
+    border-left: none;
+    height: 300px;
+}
+
+/* Style the footer */
+footer {
+    background: -webkit-linear-gradient(bottom, #2dbd6e, #a6f77b);
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    section {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+.content-wrapper{
+    padding:10px 10px 10px 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    width:80%;
+}
+
+.navbar-link{
+    text-decoration:none !important;
+    padding-left:10px;
+    color: #ffffff !important;
+    font-weight:100;
+    font-family: roboto;
+    margin-top:20px;
+    margin-bottom:20px;
+    display:block;
+}
+
+span.badge-danger {
+    background-color: #9c4e75;
+    border-radius:12px;
+    color:#ffffff;
+    padding:5px 15px 5px 15px;
+}
+span.badge-success {
+    background-color: #5cb85c;
+    border-radius: 12px;
+    color: #ffffff;
+    padding: 5px 15px 5px 15px;
+}

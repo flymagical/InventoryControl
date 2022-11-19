@@ -1,0 +1,34 @@
+﻿@model List<InventoryControl.Models.RequestHeader>
+@{
+    ViewData["Title"] = "Permintaan Bidang";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Koordinator</th>
+            <th>Status</th>
+            <th>Dibuat Tanggal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                @if (item.StatusId == 1)
+                {
+                    <td><span class="badge-danger">Usulan</span></td>
+                }
+                else if (item.StatusId == 2)
+                {
+                    <td><span class="badge-success">Disetujui</span></td>
+                }
+                <td>@item.CreatedDate?.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
+    </tbody>
+    
+</table>

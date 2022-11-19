@@ -19,5 +19,7 @@ namespace InventoryControl.Models
         public MstStatus MstStatus { get; set; }
 
         public ICollection<RequestItem> RequestItem { get; set; }
+        [NotMapped]
+        public string UserName { get; set; }
     }
 }
