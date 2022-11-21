@@ -292,7 +292,6 @@ D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\scopedcss\bun
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.TagHelpers.input.cache
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.TagHelpers.output.cache
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.RazorCoreGenerate.cache
-D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Landing\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
@@ -315,3 +314,5 @@ D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_MainLayout.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Permintaan\Index.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstItem\Index.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstSatuan\Index.cshtml.g.cs

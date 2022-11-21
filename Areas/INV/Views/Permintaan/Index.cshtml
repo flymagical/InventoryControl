@@ -8,26 +8,30 @@
 <table>
     <thead>
         <tr>
-            <th>Koordinator</th>
+            <th>Tanggal Pengeluaran</th>
+            <th>Penerima</th>
             <th>Status</th>
-            <th>Dibuat Tanggal</th>
+            <th>Item Barang</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.UserName</td>
-                @if (item.StatusId == 1)
-                {
-                    <td><span class="badge-danger">Usulan</span></td>
-                }
-                else if (item.StatusId == 2)
-                {
-                    <td><span class="badge-success">Disetujui</span></td>
-                }
-                <td>@item.CreatedDate?.ToString("yyyy-MM-dd")</td>
-            </tr>
+        <tr>
+            <td>@item.CreatedDate?.ToString("dd-MM-yyyy")</td>
+            <td>@item.UserName</td>
+            @if (item.StatusId == 1)
+            {
+                <td><span class="badge-danger">Usulan</span></td>
+            }
+            else if (item.StatusId == 2)
+            {
+                <td><span class="badge-success">Disetujui</span></td>
+            }
+            <td> </td>
+
+        </tr>
         }
     </tbody>
     

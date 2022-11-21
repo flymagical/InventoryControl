@@ -1,0 +1,27 @@
+﻿@model List<InventoryControl.Models.MstSatuan>
+@{
+    ViewData["Title"] = "Master Satuan";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Nama Satuan</th>
+            <th>Dibuat Tanggal</th>
+            <th>Dibuat Oleh</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mstSatuan in Model)
+        {
+            <tr>
+                <td>@mstSatuan.Nama</td>
+                <td>@mstSatuan.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                <td>@mstSatuan.CreatedBy</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

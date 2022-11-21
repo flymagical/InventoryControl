@@ -14,5 +14,6 @@ namespace InventoryControl.Models
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public ICollection<MstItem> MstItem { get; set; }
+       
     }
 }
