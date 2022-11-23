@@ -152,7 +152,6 @@ D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\tr\Microsoft.Code
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\InventoryControl.csproj.AssemblyReference.cache
-D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Landing\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\KULIAH\Skripsi\Project\InventoryControl\bin\Debug\netcoreapp3.1\appsettings.json
 D:\KULIAH\Skripsi\Project\InventoryControl\bin\Debug\netcoreapp3.1\InventoryControl.exe
@@ -316,3 +315,14 @@ D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\S
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Permintaan\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstItem\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstSatuan\Index.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\bundleconfig.json
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Dashboard\Index.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstItem\Index.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MstSatuan\Index.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Permintaan\Index.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\Error.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_Layout.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_MainLayout.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\Index.cshtml.g.cs

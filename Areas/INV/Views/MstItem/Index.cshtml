@@ -17,13 +17,20 @@
     <tbody>
         @foreach (var mstItem in Model)
         {
-        <tr>
-            <td>@mstItem.Nama</td>
-            <td>@mstItem.MstSatuan.Nama</td>
-            <td>@mstItem.CreatedDate?.ToString("dd-MM-yyyy")</td>
-            <td>@mstItem.CreatedBy</td>
-        </tr>
+            <tr>
+                <td>@mstItem.Nama</td>
+                <td>@mstItem.MstSatuan.Nama</td>
+                <td>@mstItem.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                <td>@mstItem.CreatedBy</td>
+            </tr>
         }
     </tbody>
 
 </table>
+
+@section Scripts{
+    <script type="text/javascript">
+        $("#@ViewBag.ActiveClass").addClass("active");
+    </script>
+
+}

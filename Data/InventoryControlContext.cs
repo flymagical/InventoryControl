@@ -1,4 +1,5 @@
-﻿using InventoryControl.Models;
+﻿using InventoryControl.Data.Views;
+using InventoryControl.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace InventoryControl.Data
 {
     public class InventoryControlContext : DbContext
     {
-
+        #region DB
         public DbSet<MstUser> MstUser { get; set; }
         public DbSet<MstUnitOrg> MstUnitOrg { get; set; }
         public DbSet<MstSatuan> MstSatuan { get; set; }
@@ -17,6 +18,16 @@ namespace InventoryControl.Data
         public DbSet<MstStatus> MstStatus { get; set; }
         public DbSet<RequestHeader> RequestHeader { get; set; }
         public DbSet<RequestItem> RequestItem { get; set; }
+
+        #endregion
+
+        #region DBView
+        public DbSet<vw_Request> vw_Request { get; set; }
+        public DbSet<vw_FrequentItem> vw_FrequentItem { get; set; }
+        public DbSet<vw_Support> vw_Support { get; set; }
+
+        #endregion
+
         public InventoryControlContext()
         {
 
@@ -31,6 +42,7 @@ namespace InventoryControl.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            #region DB
             modelBuilder.Entity<MstUnitOrg>(entity => {
                 entity.HasKey(x => x.Id);
                 entity.HasIndex(x => x.Id);
@@ -91,6 +103,24 @@ namespace InventoryControl.Data
                     .WithMany(x => x.RequestItem)
                     .HasConstraintName("FK_REQUEST_ITEM_MST_ITEM");
             });
+            #endregion
+
+            #region Views
+            modelBuilder.Entity<vw_Request>(entity => {
+                entity.HasKey(x => x.Id);
+                entity.HasIndex(x => x.Id);
+            });
+
+            modelBuilder.Entity<vw_FrequentItem>(entity => {
+                entity.HasKey(x => x.ItemId);
+                entity.HasIndex(x => x.ItemId);
+            });
+
+            modelBuilder.Entity<vw_Support>(entity => {
+                entity.HasKey(x => x.ItemId);
+                entity.HasIndex(x => x.ItemId);
+            });
+            #endregion
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

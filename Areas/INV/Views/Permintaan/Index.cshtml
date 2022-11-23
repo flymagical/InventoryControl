@@ -18,21 +18,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>@item.CreatedDate?.ToString("dd-MM-yyyy")</td>
-            <td>@item.UserName</td>
-            @if (item.StatusId == 1)
-            {
-                <td><span class="badge-danger">Usulan</span></td>
-            }
-            else if (item.StatusId == 2)
-            {
-                <td><span class="badge-success">Disetujui</span></td>
-            }
-            <td> </td>
+            <tr>
+                <td>@item.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                <td>@item.UserName</td>
+                @if (item.StatusId == 1)
+                {
+                    <td><span class="badge-danger">Usulan</span></td>
+                }
+                else if (item.StatusId == 2)
+                {
+                    <td><span class="badge-success">Disetujui</span></td>
+                }
+                <td> </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
-    
+
 </table>
+
+@section Scripts{
+    <script type="text/javascript">
+        $("#@ViewBag.ActiveClass").addClass("active");
+    </script>
+
+}

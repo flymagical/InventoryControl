@@ -26,6 +26,7 @@ namespace InventoryControl.Areas.INV.Controllers
             {
                 iItem.UserName = USER.SingleOrDefaultAsync(x => x.Id == Guid.Parse(iItem.UserId)).Result.Nama;
             }
+            ViewBag.ActiveClass = "link-permintaan";
             return View(item);
         }
     }

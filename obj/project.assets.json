@@ -8865,19 +8865,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Yanti\\.nuget\\packages\\": {}
+    "C:\\Users\\wsnov\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\KULIAH\\Skripsi\\Project\\InventoryControl\\InventoryControl.csproj",
+      "projectUniqueName": "D:\\i-Works\\i-Projects\\InventoryControl\\InventoryControl.csproj",
       "projectName": "InventoryControl",
-      "projectPath": "D:\\KULIAH\\Skripsi\\Project\\InventoryControl\\InventoryControl.csproj",
-      "packagesPath": "C:\\Users\\Yanti\\.nuget\\packages\\",
-      "outputPath": "D:\\KULIAH\\Skripsi\\Project\\InventoryControl\\obj\\",
+      "projectPath": "D:\\i-Works\\i-Projects\\InventoryControl\\InventoryControl.csproj",
+      "packagesPath": "C:\\Users\\wsnov\\.nuget\\packages\\",
+      "outputPath": "D:\\i-Works\\i-Projects\\InventoryControl\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Yanti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\wsnov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8885,6 +8890,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8962,7 +8968,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.411\\RuntimeIdentifierGraph.json"
       }
     }
   }

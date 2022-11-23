@@ -1,0 +1,120 @@
+﻿@model List<InventoryControl.Data.Views.vw_Request>
+@{
+    ViewData["Title"] = "Proses Apriori";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h1><i class="fa fa-cog fa-spin"></i> @ViewData["Title"]</h1>
+
+<div class="card">
+    <div class="card-body">
+        <div class="card-form">
+            <div class="card-label _20">Min Support </div>
+            <div class="form-control _80">
+                : <input type="text" id="txt-minsupport"/>
+            </div>
+        </div>
+        <div class="card-form">
+            <div class="card-label _20">Min Confidence </div>
+            <div class="form-control _80">
+                : <input type="text"  id="txt-minconfidence"/>
+            </div>
+        </div>
+        <div class="card-form">
+            <div class="card-label _20"></div>
+            <div class="card-label _80">
+                <button type="button" class="btn" id="btn-proses">Proses Dengan Apriori</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal Permintaan</th>
+                    <th>Item yang diminta</th>
+                </tr>
+
+                @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
+                {
+                    <tr>
+                        <td>@item.CreatedDate?.ToString("yyyy-MM-dd")</td>
+                        <td>@item.ItemList</td>
+                    </tr>
+                }
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <table id="tbl-support">
+            
+        </table>
+    </div>
+</div>
+
+@section Styles{
+    <style>
+        .card-form {
+            display: flex;
+            margin-bottom:10px;
+        }
+
+        ._20 {
+            width: 20%;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+        }
+
+        .btn {
+            height: 40px;
+            color: #ffffff;
+            background-color: #86134c;
+            padding: 5px 10px 5px 10px;
+            border-color: #86134c;
+            border-radius: 25px;
+        }
+    </style>
+}
+
+@section Scripts{ 
+    <script type="text/javascript">
+        $("#btn-proses").click(function () {
+            var minsupport = $("#txt-minsupport").val();
+            var minconfidence = $("#txt-minconfidence").val();
+
+            console.log(minsupport);
+            if (minsupport == null || minsupport == "" || minconfidence == null || minconfidence == "") {
+                alert("Minimum Support dan Minimum Confidence harus diisi!");
+            } else {
+                console.log("Silakan tunggu...........");
+                //showLoadPanel();
+                $.ajax({
+                    url: '/INV/ApiApriori/ProsesApriori/',
+                    method: "POST",
+                    data:
+                    {
+                        minsupport: minsupport,
+                        minconfidence: minconfidence
+                    }
+                })
+                .done(function (result) {
+                    //hideLoadPanel();
+                    console.log(result);
+                    result.forEach(function (item) {
+                        $("#tbl-support").append("<tr><td>" + item.namaItemSet + "</td></tr>");
+                    })
+                });
+            }
+
+        });
+
+        $("#@ViewBag.ActiveClass").addClass("active");
+    </script>
+}

@@ -14,6 +14,7 @@ namespace InventoryControl.Areas.INV.Controllers
         public readonly InventoryControlContext _context;
         public MstItemController(InventoryControlContext context)
         {
+            
             _context = context;
         }
         public async Task<IActionResult> Index()
@@ -21,7 +22,7 @@ namespace InventoryControl.Areas.INV.Controllers
             var mstItem = await _context.MstItem
                           .Include(x => x.MstSatuan)
                           .ToListAsync();
-          
+            ViewBag.ActiveClass = "link-barang";
             return View(mstItem);
         }
     }

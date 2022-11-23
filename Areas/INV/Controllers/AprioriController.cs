@@ -9,20 +9,18 @@ using System.Threading.Tasks;
 namespace InventoryControl.Areas.INV.Controllers
 {
     [Area("INV")]
-    public class MstSatuanController : Controller
+    public class AprioriController : Controller
     {
         public readonly InventoryControlContext _context;
-        public MstSatuanController(InventoryControlContext context)
+        public AprioriController(InventoryControlContext context)
         {
-            
             _context = context;
         }
         public async Task<IActionResult> Index()
         {
-            var mstSatuan = await _context.MstSatuan
-                                  .ToListAsync();
-            ViewBag.ActiveClass = "link-satuan";
-            return View(mstSatuan);
+            var item = await _context.vw_Request.ToListAsync();
+            ViewBag.ActiveClass = "link-apriori";
+            return View(item);
         }
     }
 }

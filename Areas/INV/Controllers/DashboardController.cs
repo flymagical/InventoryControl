@@ -11,6 +11,7 @@ namespace InventoryControl.Areas.INV.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.ActiveClass = "link-dashboard";
             return View();
         }
     }
