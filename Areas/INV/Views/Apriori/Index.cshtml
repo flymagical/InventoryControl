@@ -1,4 +1,5 @@
-﻿@model List<InventoryControl.Data.Views.vw_Request>
+﻿@model InventoryControl.Models.Components.PaginatedList<InventoryControl.Data.Views.vw_Request>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Proses Apriori";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
@@ -11,13 +12,19 @@
         <div class="card-form">
             <div class="card-label _20">Min Support </div>
             <div class="form-control _80">
-                : <input type="text" id="txt-minsupport"/>
+                : <input type="text" id="txt-minsupport" />
             </div>
         </div>
         <div class="card-form">
             <div class="card-label _20">Min Confidence </div>
             <div class="form-control _80">
-                : <input type="text"  id="txt-minconfidence"/>
+                : <input type="text" id="txt-minconfidence" />
+            </div>
+        </div>
+        <div class="card-form">
+            <div class="card-label _20">Bidang </div>
+            <div class="form-control _80">
+                : @Html.DropDownList("KdOrg", new SelectList(ViewBag.SelectBidang, "Id", "Nama"))
             </div>
         </div>
         <div class="card-form">
@@ -28,30 +35,43 @@
         </div>
     </div>
 </div>
-<div class="card">
+<div class="card" id="card-request">
     <div class="card-body">
-        <table>
+        <table style="width:100%;table-layout:fixed;" >
             <thead>
                 <tr>
-                    <th>Tanggal Permintaan</th>
-                    <th>Item yang diminta</th>
+                    <th style="width:20%;">Tanggal Permintaan</th>
+                    <th style="width:80%;">Item yang diminta</th>
                 </tr>
 
                 @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
                 {
                     <tr>
-                        <td>@item.CreatedDate?.ToString("yyyy-MM-dd")</td>
-                        <td>@item.ItemList</td>
+                        <td style="width:20%;" class="_center">@item.StrCreatedDate</td>
+                        <td style="width:80%;">@item.ItemList</td>
                     </tr>
                 }
             </thead>
         </table>
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+        <div class="pager">
+            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" class="btn btn-default @prevDisabled">Previous</a>
+            <span class="devider"></span>
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+
     </div>
 </div>
 <div class="card">
     <div class="card-body">
         <table id="tbl-support">
-            
         </table>
     </div>
 </div>
@@ -60,7 +80,7 @@
     <style>
         .card-form {
             display: flex;
-            margin-bottom:10px;
+            margin-bottom: 10px;
         }
 
         ._20 {
@@ -80,28 +100,40 @@
             border-color: #86134c;
             border-radius: 25px;
         }
+
+        .pager {
+            margin-top: 40px;
+        }
+
+        .devider {
+            margin-left: 20px;
+        }
     </style>
 }
 
-@section Scripts{ 
+@section Scripts{
     <script type="text/javascript">
+
         $("#btn-proses").click(function () {
             var minsupport = $("#txt-minsupport").val();
             var minconfidence = $("#txt-minconfidence").val();
+            var kdOrg = $("#KdOrg").val();
 
             console.log(minsupport);
-            if (minsupport == null || minsupport == "" || minconfidence == null || minconfidence == "") {
-                alert("Minimum Support dan Minimum Confidence harus diisi!");
+            if (minsupport == null || minsupport == "" || minconfidence == null || minconfidence == "" || kdOrg == null || kdOrg == "") {
+                alert("Minimum Support, Minimum Confidence, dan Bidang harus diisi!");
             } else {
                 console.log("Silakan tunggu...........");
                 //showLoadPanel();
+                showBusyIndicator("body");
                 $.ajax({
                     url: '/INV/ApiApriori/ProsesApriori/',
                     method: "POST",
                     data:
                     {
                         minsupport: minsupport,
-                        minconfidence: minconfidence
+                        minconfidence: minconfidence,
+                        kdOrg: kdOrg
                     }
                 })
                 .done(function (result) {
@@ -116,5 +148,7 @@
         });
 
         $("#@ViewBag.ActiveClass").addClass("active");
+
+
     </script>
 }

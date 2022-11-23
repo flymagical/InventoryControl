@@ -21,6 +21,7 @@ using System.Globalization;
 using InventoryControl.Data;
 using InventoryControl.Areas.INV.Models;
 using InventoryControl.Data.Views;
+using InventoryControl.Models;
 
 namespace InventoryControl.Areas.INV.Controllers
 {
@@ -29,13 +30,15 @@ namespace InventoryControl.Areas.INV.Controllers
     public class ApiAprioriController : Controller
     {
         public readonly InventoryControlContext _context;
+        public List<ItemSetViewModel> itemSets;
         public ApiAprioriController(InventoryControlContext context)
         {
             _context = context;
+            itemSets = new List<ItemSetViewModel>();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProsesApriori(int? minsupport = 0, int? minconfidence = 0)
+        public async Task<IActionResult> _ProsesApriori(int? minsupport = 0, int? minconfidence = 0)
         {
             try
             {
@@ -175,6 +178,181 @@ namespace InventoryControl.Areas.INV.Controllers
             {
                 throw ex;
             }
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProsesApriori(int? minsupport = 0, int? minconfidence = 0, string kdOrg = "")
+        {
+            int k = 1;
+            var MSTITEM = _context.MstItem;
+            List<ItemSetViewModel> ItemSets = new List<ItemSetViewModel>();
+            List<AssociationRuleViewModel> allRules = new List<AssociationRuleViewModel>();
+            var userListInUnitOrg = _context.MstUser.Where(x => x.KdOrg == kdOrg);
+            var REQUEST = _context.RequestHeader.Include(x => x.RequestItem).Where(x => userListInUnitOrg.Any(y => y.Id.ToString() == x.UserId));
+
+            var requestItem = new List<RequestItem>();
+            foreach (var iRequest in REQUEST)
+            {
+                requestItem.AddRange(iRequest.RequestItem);
+            }
+
+            var mstitem = _context.MstItem.Where(x => requestItem.Select(y => y.ItemId.ToString()).Contains(x.Id.ToString())).Select(x => x.Id).AsEnumerable();
+
+            bool next;
+            do
+            {
+                next = false;
+                var iset = GetItemSet(k, (int)minsupport, mstitem.AsEnumerable(), REQUEST, false);
+                if(iset.Count() > 0)
+                {
+                    List<AssociationRuleViewModel> rules = new List<AssociationRuleViewModel>();
+                    if (k != 1)
+                    {
+                        rules = GetRules(iset);
+                        allRules.AddRange(rules);
+                    }
+                        
+
+                    next = true;
+                    k++;
+                    ItemSets.Add(iset);
+
+                }
+            } while (next);
+            
+            foreach(var iSet in ItemSets)
+            {
+                List<string> barangBarang = new List<string>();
+                foreach(var iKeys in iSet.Keys)
+                {
+                    string barang = "";
+                    int i = 0;
+                    foreach(var iKey in iKeys)
+                    {
+                        var item = await MSTITEM.SingleOrDefaultAsync(x => x.Id == iKey);
+                        if (i == 0)
+                        {
+                            barang += item.Nama;
+                        }
+                        else
+                        {
+                            barang += ", " + item.Nama;
+                        }
+                    }
+                    barangBarang.Add(barang);
+                }
+                
+            }
+
+            return Ok(ItemSets);
+        }
+
+        public ItemSetViewModel GetItemSet(int length, int minsupport, IEnumerable<Guid> mstitem, IQueryable<RequestHeader> REQUEST, bool candidates = false)
+        {
+            
+            List<List<Guid>> result = GetPermutations(mstitem, length).Select(x => x.ToList()).ToList();
+            List<List<Guid>> data = new List<List<Guid>>();
+            foreach (var item in result)
+            {
+                data.Add(item.ToList());
+            }
+            ItemSetViewModel itemSet = new ItemSetViewModel();
+            itemSet.Support = minsupport;
+            itemSet.Label = (candidates ? "C" : "L") + length.ToString();
+            foreach (var item in data)
+            {
+                int count = 0;
+                foreach(var iRequest in REQUEST)
+                {
+                    bool found = false;
+                    foreach(var iList in item)
+                    {
+                        if (iRequest.RequestItem.Any(x => x.ItemId == iList))
+                            found = true;
+                        else
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+                    if (found)
+                        count++;
+                }
+                if(count >= minsupport)
+                {
+                    itemSet.Add(item, count);
+                    itemSets.Add(itemSet);
+                }
+            }
+
+            return itemSet;
+        }
+        public static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+        {
+            int i = 0;
+            foreach (var item in items)
+            {
+                if (count == 1)
+                    yield return new T[] { item };
+                else
+                {
+                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
+                        yield return new T[] { item }.Concat(result);
+                }
+
+                ++i;
+            }
+        }
+
+        public List<AssociationRuleViewModel> GetRules(ItemSetViewModel items)
+        {
+            List<AssociationRuleViewModel> rules = new List<AssociationRuleViewModel>();
+            foreach (var item in items)
+            {
+                foreach (var set in item.Key)
+                {
+                    rules.Add(GetSingleRule(set.ToString(), item));
+                    if (item.Key.Count > 2)
+                        rules.Add(GetSingleRule(item.Key.ToString(), item));
+                }
+            }
+
+            return rules.OrderByDescending(a => a.Support).ThenByDescending(a => a.Confidence).ToList();
+        }
+
+        private AssociationRuleViewModel GetSingleRule(string set, KeyValuePair<List<Guid>, int> item)
+        {
+            var setItems = set.ToString().Split(',');
+            for (int i = 0; i < setItems.Count(); i++)
+            {
+                setItems[i] = setItems[i].Trim();
+            }
+            AssociationRuleViewModel rule = new AssociationRuleViewModel();
+            StringBuilder sb = new StringBuilder();
+            sb.Append(set).Append(" => ");
+            List<string> list = new List<string>();
+            foreach (var set2 in item.Key)
+            {
+                if (setItems.Contains(set2.ToString())) continue;
+                list.Add(set2.ToString());
+            }
+
+            //sb.Append(list.ToDisplay()) ;
+            rule.Label = sb.ToString();
+            int totalSet = 0;
+            foreach (var first in itemSets)
+            {
+                var myItem = first.Keys.Where(a => a.ToString() == set);
+                if (myItem.Count() > 0)
+                {
+                    first.TryGetValue(myItem.FirstOrDefault(), out totalSet);
+                    break;
+                }
+            }
+            rule.Confidence = Math.Round(((double)item.Value / totalSet) * 100, 2);
+            rule.Support = Math.Round(((double)item.Value / list.Count) * 100, 2);
+            return rule;
         }
     }
 

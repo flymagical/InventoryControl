@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - InventoryControl</title>
     <link rel="stylesheet" href="~/css/main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="~/lib/jquery/dist/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js" integrity="sha256-hlKLmzaRlE8SCJC1Kw8zoUbU8BxA+8kR3gseuKfMjxA=" crossorigin="anonymous"></script>
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -25,17 +28,17 @@
             <a href="@Url.Action("Index", "MstSatuan", new {Area="INV" })" class="navbar-link" id="link-satuan"><i class="fa fa-filter"></i> Master Satuan</a>
             <a href="@Url.Action("Index", "Apriori", new {Area="INV" })" class="navbar-link" id="link-apriori"><i class="fa fa-globe"></i> Apriori</a>
             @*<button class="tablinks" onclick="openCity(event, 'PermintaanBidang')" id="defaultOpen">Pengeluaran Barang</button>
-        <button class="tablinks" onclick="openCity(event, 'Prediksi')">Prediksi</button>
-        <button class="tablinks" onclick="openCity(event, 'StokBarang')">Stok Barang</button>
-        <button class="tablinks" onclick="openCity(event, 'MasterBarang')">Master Barang</button>
-        <button class="tablinks" onclick="openCity(event, 'MasterSatuan')">Master Satuan</button>*@
+            <button class="tablinks" onclick="openCity(event, 'Prediksi')">Prediksi</button>
+            <button class="tablinks" onclick="openCity(event, 'StokBarang')">Stok Barang</button>
+            <button class="tablinks" onclick="openCity(event, 'MasterBarang')">Master Barang</button>
+            <button class="tablinks" onclick="openCity(event, 'MasterSatuan')">Master Satuan</button>*@
         </div>
 
         <div class="content-wrapper">
             @RenderBody()
         </div>
 
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script type="text/javascript">
             function openCity(evt, cityName) {
@@ -62,9 +65,16 @@
                 });
 
                 console.log("active class = @ViewBag.ActiveClass");
-                
+
             });
 
+            function showBusyIndicator(element = "body") {
+                $(element).block({ message: '<img src="/images/Spinner-1s-200px.gif" style="width:20%" /><br>Please wait...', css: { backgroundColor: '#f00', color: '#000' } });
+            }
+
+            function stopBusyIndicator(element = "body") {
+                $(element).unblock();
+            }
 
         </script>
         @RenderSection("Scripts", required: false)
