@@ -1,4 +1,5 @@
-﻿@{
+﻿@model InventoryControl.Models.MstUser
+@{
     ViewData["Title"] = "LOGIN";
 }
 <div id="card">
@@ -7,37 +8,41 @@
             <h2>@ViewData["Title"]</h2>
             <div class="underline-title"></div>
         </div>
-        <form method="post" class="form">
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Login" class="form">
+            <input type="hidden" value="@ViewBag.ReturnUrl" asp-for="ReturnURL" />
             <label for="user-username" style="padding-top:13px">
                 &nbsp;Username
             </label>
-            <input id="user-username" class="form-content" type="username" name="username" autocomplete="on" required />
+            <input class="form-content" autocomplete="on" asp-for="Id" required />
             <div class="form-border"></div>
             <label for="user-password" style="padding-top:22px">
                 &nbsp;Password
             </label>
-            <input id="user-password" class="form-content" type="password" name="password" required />
+            <input class="form-content" type="password" asp-for="Password" required />
             <div class="form-border"></div>
-            <a href="#">
-                <legend id="forgot-pass">Forgot password?</legend>
-            </a>
-            <input id="submit-btn" type="button" name="submit" value="LOGIN" />
-            <a href="#" id="signup">Don't have account yet?</a>
+            @*<a href="#">
+                    <legend id="forgot-pass">Forgot password?</legend>
+                </a>*@
+            <input id="submit-btn" type="submit" name="submit" value="LOGIN" />
+            @*<a href="#" id="signup">Don't have account yet?</a>*@
         </form>
     </div>
 </div>
 
 
-@section Scripts{ 
-<script type="text/javascript">
-        $("#submit-btn").click(function () {
+@section Scripts{
+    <script type="text/javascript">
+        @*$("#submit-btn").click(function () {
             var landingPageUrl = '@Url.Action("Index", "Dashboard", new {Area = "INV" })';
 
             redirectToUrl(landingPageUrl);
-        });
+        });*@
 
         function redirectToUrl(url) {
             $(location).attr('href', url);
-        }
-</script>
+    }
+
+    var windowHeight = $(window).height();
+    $("body").css("min-height", windowHeight + "px");
+    </script>
 }

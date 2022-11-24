@@ -43,7 +43,7 @@ section {
     /*border: 1px solid #bfc1c2;*/
     background-color: #9c4e75;
     color: #ffffff;
-    width: 20%;
+    width: 15%;
     height: auto;
     min-height:600px;
     padding-top: -5px !important;
@@ -111,12 +111,14 @@ table {
 td {
     text-align: left;
     padding: 8px;
+    border-right: 1px solid #ddd;
 }
 
 th {
     text-align: center;
     padding: 8px;
     border-bottom: 1px #999696 solid !important;
+    border-right: 1px solid #ddd;
 }
 
 tr:nth-child(even) {
@@ -125,10 +127,10 @@ tr:nth-child(even) {
 }
 
 .content-wrapper{
-    padding:10px 10px 10px 50px;
+    padding:10px 40px 10px 50px;
     /*font-family: Arial, Helvetica, sans-serif;*/
     font-family: monserrat;
-    width:80%;
+    width:85%;
 }
 
 .navbar-link{
@@ -139,7 +141,7 @@ tr:nth-child(even) {
     font-family: monserrat;
     display:block;
     height:60px;
-    padding-left:50px;
+    padding-left:20px;
     padding-top:20px;
 }
 
@@ -165,14 +167,18 @@ input[type="text"], select {
     min-width: 80%;
     border-color: #e7c5d6;
     border-radius: 5px;
+    font-size: 16px;
+    font-family: 'monserrat';
 }
 
     input[type="text"]:focus {
         outline: 3px ridge #a15078
     }
 
-input{
-    border-style:solid !important;
+input {
+    border-style: solid !important;
+    font-size: 16px;
+    font-family: 'monserrat';
 }
 
 button{
@@ -184,6 +190,8 @@ button{
     pointer-events: none;
     cursor: default;
     text-decoration: none;
+    background-color: #a8aaae !important;
+    border-color: #a8aaae !important;
 }
 ._center{
     text-align:center;
@@ -198,4 +206,32 @@ button{
 
 .blockUI.blockOverlay {
     position: fixed !important;
+}
+
+.card {
+    background-color: #f7f7f7;
+    padding: 30px 29px 30px 30px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.btn-danger {
+    background-color: #ea5455 !important;
+    border: #ea5455 !important;
+}
+
+.btn-success {
+    background-color: #28c76f !important;
+    border-color: #28c76f !important;
+}
+
+.btn-info {
+    background-color: #7367f0 !important;
+    border-color: #7367f0 !important;
+}
+
+.btn-secondary {
+    background-color: #a8aaae !important;
+    border-color: #a8aaae !important;
 }

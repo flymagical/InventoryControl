@@ -22,12 +22,14 @@ using InventoryControl.Data;
 using InventoryControl.Areas.INV.Models;
 using InventoryControl.Data.Views;
 using InventoryControl.Models;
+using InventoryControl.Controllers;
 
 namespace InventoryControl.Areas.INV.Controllers
 {
     [Area("INV")]
+    [Authorize]
     [Produces("application/json")]
-    public class ApiAprioriController : Controller
+    public class ApiAprioriController : BaseController
     {
         public readonly InventoryControlContext _context;
         public List<ItemSetViewModel> itemSets;
@@ -182,70 +184,147 @@ namespace InventoryControl.Areas.INV.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ProsesApriori(int? minsupport = 0, int? minconfidence = 0, string kdOrg = "")
+        public async Task<IActionResult> ProsesApriori(int? minsupport = 0, int? minconfidence = 0, string kdOrg = "", bool isForce = true)
         {
-            int k = 1;
-            var MSTITEM = _context.MstItem;
-            List<ItemSetViewModel> ItemSets = new List<ItemSetViewModel>();
-            List<AssociationRuleViewModel> allRules = new List<AssociationRuleViewModel>();
-            var userListInUnitOrg = _context.MstUser.Where(x => x.KdOrg == kdOrg);
-            var REQUEST = _context.RequestHeader.Include(x => x.RequestItem).Where(x => userListInUnitOrg.Any(y => y.Id.ToString() == x.UserId));
-
-            var requestItem = new List<RequestItem>();
-            foreach (var iRequest in REQUEST)
+            try
             {
-                requestItem.AddRange(iRequest.RequestItem);
-            }
-
-            var mstitem = _context.MstItem.Where(x => requestItem.Select(y => y.ItemId.ToString()).Contains(x.Id.ToString())).Select(x => x.Id).AsEnumerable();
-
-            bool next;
-            do
-            {
-                next = false;
-                var iset = GetItemSet(k, (int)minsupport, mstitem.AsEnumerable(), REQUEST, false);
-                if(iset.Count() > 0)
+                if (isForce == true)
                 {
-                    List<AssociationRuleViewModel> rules = new List<AssociationRuleViewModel>();
-                    if (k != 1)
+                    int k = 1;
+                    var MSTITEM = _context.MstItem;
+                    List<ItemSetViewModel> ItemSets = new List<ItemSetViewModel>();
+                    List<AssociationRuleViewModel> allRules = new List<AssociationRuleViewModel>();
+                    var userListInUnitOrg = _context.MstUser.Where(x => x.KdOrg == kdOrg);
+                    var REQUEST = _context.RequestHeader.Include(x => x.RequestItem).Where(x => userListInUnitOrg.Any(y => y.Id.ToString() == x.UserId));
+
+                    var requestItem = new List<RequestItem>();
+                    foreach (var iRequest in REQUEST)
                     {
-                        rules = GetRules(iset);
-                        allRules.AddRange(rules);
+                        requestItem.AddRange(iRequest.RequestItem);
                     }
+
+                    var mstitem = _context.MstItem.Where(x => requestItem.Select(y => y.ItemId.ToString()).Contains(x.Id.ToString())).Select(x => x.Id).AsEnumerable();
+
+                    bool next;
+                    do
+                    {
+                        next = false;
+                        var iset = GetItemSet(k, (int)minsupport, mstitem.AsEnumerable(), REQUEST, false);
+                        if (iset.Count() > 0)
+                        {
+                            List<AssociationRuleViewModel> rules = new List<AssociationRuleViewModel>();
+                            if (k != 1)
+                            {
+                                rules = GetRules(iset);
+                                allRules.AddRange(rules);
+                            }
+
+
+                            next = true;
+                            k++;
+                            ItemSets.Add(iset);
+
+                        }
+                    } while (next);
+
+                    foreach (var iSet in ItemSets)
+                    {
+                        List<string> barangBarang = new List<string>();
+                        foreach (var iKeys in iSet.Keys)
+                        {
+                            string barang = "";
+                            int i = 0;
+                            foreach (var iKey in iKeys)
+                            {
+                                var item = await MSTITEM.SingleOrDefaultAsync(x => x.Id == iKey);
+                                if (i == 0)
+                                {
+                                    barang += item.Nama;
+                                }
+                                else
+                                {
+                                    barang += ", " + item.Nama;
+                                }
+                            }
+                            barangBarang.Add(barang);
+                        }
+
+                    }
+
+                    var startDate = (DateTime)await REQUEST.MinAsync(x => x.CreatedDate);
+                    var endDate = (DateTime)await REQUEST.MaxAsync(x => x.CreatedDate);
+
+                    var existingAB = _context.AprioriBidang.Include(x => x.AprioriBidangItem).Where(x => x.KdOrg == kdOrg && x.StartDate == startDate && x.EndDate == endDate);
+                    var existingABI = await existingAB?.SelectMany(x => x.AprioriBidangItem).ToListAsync();
+
+                    _context.AprioriBidangItem.RemoveRange(existingABI);
+                    _context.AprioriBidang.RemoveRange(existingAB);
+
+                    var currUser = GetCurrentUser();
+                    List<AprioriBidang> ABList = new List<AprioriBidang>();
+                    List<AprioriBidangItem> ABIList = new List<AprioriBidangItem>();
+
+                    foreach (var iSet in ItemSets)
+                    {
+                        var support = iSet.Support;
+                        var label = iSet.Label;
                         
 
-                    next = true;
-                    k++;
-                    ItemSets.Add(iset);
+                        foreach (var iItem in iSet)
+                        {
+                            var itemCount = iSet.Count();
+                            #region Create Apriori Bidang
+                            var newAprioriBidang = new AprioriBidang
+                            {
+                                Id = Guid.NewGuid(),
+                                StartDate = startDate,
+                                EndDate = endDate,
+                                Label = label,
+                                Support = support,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = Guid.Parse(currUser),
+                                KdOrg = kdOrg,
+                                AprioriBidangItem = new List<AprioriBidangItem>()
+                            };
 
-                }
-            } while (next);
-            
-            foreach(var iSet in ItemSets)
-            {
-                List<string> barangBarang = new List<string>();
-                foreach(var iKeys in iSet.Keys)
-                {
-                    string barang = "";
-                    int i = 0;
-                    foreach(var iKey in iKeys)
-                    {
-                        var item = await MSTITEM.SingleOrDefaultAsync(x => x.Id == iKey);
-                        if (i == 0)
-                        {
-                            barang += item.Nama;
-                        }
-                        else
-                        {
-                            barang += ", " + item.Nama;
+                            ABList.Add(newAprioriBidang);
+                            #endregion
+                            foreach (var iKey in iItem.Key)
+                            {
+                                var itemId = iKey;
+                                var itemdetail = MSTITEM.SingleOrDefaultAsync(x => x.Id == itemId);
+                                var newAprioriBidangItem = new AprioriBidangItem
+                                {
+                                    Id = Guid.NewGuid(),
+                                    CreatedDate = DateTime.Now,
+                                    CreatedBy = Guid.Parse(currUser),
+                                    ItemId = itemId,
+                                    AprioriBidangId = newAprioriBidang.Id
+                                };
+
+
+                                ABIList.Add(newAprioriBidangItem);
+                                newAprioriBidang.AprioriBidangItem.Add(newAprioriBidangItem);
+                            }
                         }
                     }
-                    barangBarang.Add(barang);
-                }
-                
-            }
 
-            return Ok(ItemSets);
+                    #region Save To Database
+                    _context.AprioriBidang.AddRange(ABList);
+                    _context.AprioriBidangItem.AddRange(ABIList);
+                    await _context.SaveChangesAsync();
+                    #endregion
+                }
+
+                var data = _context.AprioriBidang.Include(x => x.AprioriBidangItem).ThenInclude(x => x.MstItem).Where(x => x.KdOrg == kdOrg);
+                return Ok(data);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+            
         }
 
         public ItemSetViewModel GetItemSet(int length, int minsupport, IEnumerable<Guid> mstitem, IQueryable<RequestHeader> REQUEST, bool candidates = false)

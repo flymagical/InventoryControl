@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cP6+OVqhehMQO7sfHiW7HrnjSMKM7o7HRUzPsFOq8GcOdPENS8jX5C+wWomqGbjACgPQjLvdr8l+hL5r3mkZZg==",
+  "dgSpecHash": "852O1TUG5YHIe9egn3awn61jqwbN7sv2YxsOvmNexskLQo4VhyJ+rdijkHh8bThGzf3EbnquKysLtZRON5RIBA==",
   "success": true,
   "projectFilePath": "D:\\i-Works\\i-Projects\\InventoryControl\\InventoryControl.csproj",
   "expectedPackageFiles": [
@@ -176,7 +176,8 @@
     "C:\\Users\\wsnov\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\wsnov\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\wsnov\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\wsnov\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\wsnov\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\wsnov\\.nuget\\packages\\uaparser\\3.1.47\\uaparser.3.1.47.nupkg.sha512"
   ],
   "logs": []
 }

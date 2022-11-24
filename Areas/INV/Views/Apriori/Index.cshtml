@@ -12,13 +12,13 @@
         <div class="card-form">
             <div class="card-label _20">Min Support </div>
             <div class="form-control _80">
-                : <input type="text" id="txt-minsupport" />
+                : <input type="text" id="txt-minsupport" value="2"/>
             </div>
         </div>
         <div class="card-form">
             <div class="card-label _20">Min Confidence </div>
             <div class="form-control _80">
-                : <input type="text" id="txt-minconfidence" />
+                : <input type="text" id="txt-minconfidence" value="60"/>
             </div>
         </div>
         <div class="card-form">
@@ -30,7 +30,7 @@
         <div class="card-form">
             <div class="card-label _20"></div>
             <div class="card-label _80">
-                <button type="button" class="btn" id="btn-proses">Proses Dengan Apriori</button>
+                <button type="button" class="btn btn-info" id="btn-proses">Proses Dengan Apriori</button>
             </div>
         </div>
     </div>
@@ -72,6 +72,13 @@
 <div class="card">
     <div class="card-body">
         <table id="tbl-support">
+            <tr>
+                <th>Bidang</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Label</th>
+                <th>Support</th>
+            </tr>
         </table>
     </div>
 </div>
@@ -125,7 +132,7 @@
             } else {
                 console.log("Silakan tunggu...........");
                 //showLoadPanel();
-                showBusyIndicator("body");
+                //showBusyIndicator("body");
                 $.ajax({
                     url: '/INV/ApiApriori/ProsesApriori/',
                     method: "POST",
@@ -133,14 +140,15 @@
                     {
                         minsupport: minsupport,
                         minconfidence: minconfidence,
-                        kdOrg: kdOrg
+                        kdOrg: kdOrg,
+                        isForce: true
                     }
                 })
                 .done(function (result) {
                     //hideLoadPanel();
                     console.log(result);
                     result.forEach(function (item) {
-                        $("#tbl-support").append("<tr><td>" + item.namaItemSet + "</td></tr>");
+                        $("#tbl-support").append("<tr><td>" + $("#KdOrg option:selected").text() + "</td><td>" + item.startDate + "</td><td>" + item.endDate + "</td><td>" + item.label + "</td><td>" + item.support + "</td></tr>");
                     })
                 });
             }

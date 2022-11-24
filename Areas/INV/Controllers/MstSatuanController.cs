@@ -1,4 +1,5 @@
-﻿using InventoryControl.Data;
+﻿using InventoryControl.Controllers;
+using InventoryControl.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,8 @@ using System.Threading.Tasks;
 namespace InventoryControl.Areas.INV.Controllers
 {
     [Area("INV")]
-    public class MstSatuanController : Controller
+    [Authorize]
+    public class MstSatuanController : BaseController
     {
         public readonly InventoryControlContext _context;
         public MstSatuanController(InventoryControlContext context)

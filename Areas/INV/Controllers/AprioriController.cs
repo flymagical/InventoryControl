@@ -1,4 +1,5 @@
-﻿using InventoryControl.Data;
+﻿using InventoryControl.Controllers;
+using InventoryControl.Data;
 using InventoryControl.Data.Views;
 using InventoryControl.Models.Components;
 using InventoryControl.Services;
@@ -12,7 +13,8 @@ using System.Threading.Tasks;
 namespace InventoryControl.Areas.INV.Controllers
 {
     [Area("INV")]
-    public class AprioriController : Controller
+    [Authorize]
+    public class AprioriController : BaseController
     {
         public readonly InventoryControlContext _context;
         public CommonService _commonService { get; set; }

@@ -19,6 +19,9 @@ namespace InventoryControl.Models
         public string CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
+        public string Token { get; set; }
+        [NotMapped]
+        public string ReturnURL { get; set; }
         [ForeignKey("KdOrg")]
         public MstUnitOrg MstUnitOrg { get; set; }
     }

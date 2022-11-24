@@ -20,7 +20,8 @@ namespace InventoryControl.Models
         public MstSatuan MstSatuan { get; set; }
         public ICollection<RequestItem> RequestItem { get; set; }
         public ICollection<Stok> Stok { get; set; }
+        public ICollection<AprioriBidangItem> AprioriBidangItem { get; set; }
 
-       
+
     }
 }

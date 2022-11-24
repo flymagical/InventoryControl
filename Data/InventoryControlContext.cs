@@ -18,6 +18,8 @@ namespace InventoryControl.Data
         public DbSet<MstStatus> MstStatus { get; set; }
         public DbSet<RequestHeader> RequestHeader { get; set; }
         public DbSet<RequestItem> RequestItem { get; set; }
+        public DbSet<AprioriBidang> AprioriBidang { get; set; }
+        public DbSet<AprioriBidangItem> AprioriBidangItem { get; set; }
 
         #endregion
 
@@ -103,6 +105,27 @@ namespace InventoryControl.Data
                     .WithMany(x => x.RequestItem)
                     .HasConstraintName("FK_REQUEST_ITEM_MST_ITEM");
             });
+
+            modelBuilder.Entity<AprioriBidang>(entity => {
+                entity.HasKey(x => x.Id);
+                entity.HasIndex(x => x.Id);
+            });
+
+            modelBuilder.Entity<AprioriBidangItem>(entity => {
+                entity.HasKey(x => x.Id);
+                entity.HasIndex(x => x.Id);
+
+                entity.HasOne(x => x.AprioriBidang)
+                    .WithMany(x => x.AprioriBidangItem)
+                    .HasForeignKey(x => x.AprioriBidangId)
+                    .HasConstraintName("FK_APRIORI_BIDANG_ITEM_APRIORI_BIDANG");
+
+                entity.HasOne(x => x.MstItem)
+                    .WithMany(x => x.AprioriBidangItem)
+                    .HasForeignKey(x => x.ItemId)
+                    .HasConstraintName("FK_APRIORI_BIDANG_ITEM_MST_ITEM");
+            });
+
             #endregion
 
             #region Views
