@@ -17,6 +17,10 @@ namespace InventoryControl.Models
         public Guid? CreatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public Guid? UpdatedBy { get; set; }
+        public string Rules { get; set; }
+        public int? SupportAUB { get; set; }
+        public int? SupportA { get; set; }
+        public decimal? Confidence { get; set; }
         public ICollection<AprioriBidangItem> AprioriBidangItem { get; set; }
     }
 }

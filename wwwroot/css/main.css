@@ -235,3 +235,34 @@ button{
     background-color: #a8aaae !important;
     border-color: #a8aaae !important;
 }
+
+.card-form {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+._20 {
+    width: 20%;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+}
+
+.btn {
+    height: 40px;
+    color: #ffffff;
+    background-color: #86134c;
+    padding: 5px 10px 5px 10px;
+    border-color: #86134c;
+    border-radius: 25px;
+}
+
+.pager {
+    margin-top: 40px;
+}
+
+.devider {
+    margin-left: 20px;
+}

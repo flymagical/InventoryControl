@@ -1,5 +1,8 @@
 ﻿using InventoryControl.Controllers;
 using InventoryControl.Data;
+using InventoryControl.Data.Views;
+using InventoryControl.Models.Components;
+using InventoryControl.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,22 +17,30 @@ namespace InventoryControl.Areas.INV.Controllers
     public class PermintaanController : BaseController
     {
         public readonly InventoryControlContext _context;
+        public CommonService _commonService { get; set; }
+        public int pageSize { get; set; }
         public PermintaanController(InventoryControlContext context)
         {
             _context = context;
+            pageSize = 10;
+            _commonService = new CommonService(_context);
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            var item = await _context.RequestHeader
-                            .Include(x => x.RequestItem)
-                            .ToListAsync();
-            var USER = _context.MstUser;
-            foreach(var iItem in item)
-            {
-                iItem.UserName = USER.SingleOrDefaultAsync(x => x.Id == Guid.Parse(iItem.UserId)).Result.Nama;
-            }
+            pageNumber = pageNumber ?? 1;
             ViewBag.ActiveClass = "link-permintaan";
-            return View(item);
+            var item = _context.vw_Request.Select(x => new vw_Request
+            {
+                Id = x.Id,
+                CreatedDate = x.CreatedDate,
+                ItemList = x.ItemList,
+                StrCreatedDate = _commonService.GetSimpleIndonesianDateFormat(x.CreatedDate.Value)
+            });
+
+            var model = await PaginatedList<vw_Request>.CreateAsync(item.AsNoTracking(), pageNumber ?? 1, pageSize);
+
+            ViewBag.SelectBidang = _context.MstUnitOrg.Select(x => new { x.Id, x.Nama });
+            return View(model);
         }
     }
 }

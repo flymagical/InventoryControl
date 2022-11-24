@@ -217,9 +217,14 @@ namespace InventoryControl.Areas.INV.Controllers
                             {
                                 rules = GetRules(iset);
                                 allRules.AddRange(rules);
+
+                                iset.Rules = string.Join(" ", allRules.Select(x => x.Label).ToArray());
+                                iset.SupportA = (int)allRules.FirstOrDefault().Support;
+                                iset.SupportAUB = iset.Support;
+                                iset.Confidence = (decimal?)allRules.FirstOrDefault().Confidence;
                             }
 
-
+                            
                             next = true;
                             k++;
                             ItemSets.Add(iset);
@@ -227,29 +232,29 @@ namespace InventoryControl.Areas.INV.Controllers
                         }
                     } while (next);
 
-                    foreach (var iSet in ItemSets)
-                    {
-                        List<string> barangBarang = new List<string>();
-                        foreach (var iKeys in iSet.Keys)
-                        {
-                            string barang = "";
-                            int i = 0;
-                            foreach (var iKey in iKeys)
-                            {
-                                var item = await MSTITEM.SingleOrDefaultAsync(x => x.Id == iKey);
-                                if (i == 0)
-                                {
-                                    barang += item.Nama;
-                                }
-                                else
-                                {
-                                    barang += ", " + item.Nama;
-                                }
-                            }
-                            barangBarang.Add(barang);
-                        }
+                    //foreach (var iSet in ItemSets)
+                    //{
+                    //    List<string> barangBarang = new List<string>();
+                    //    foreach (var iKeys in iSet.Keys)
+                    //    {
+                    //        string barang = "";
+                    //        int i = 0;
+                    //        foreach (var iKey in iKeys)
+                    //        {
+                    //            var item = await MSTITEM.SingleOrDefaultAsync(x => x.Id == iKey);
+                    //            if (i == 0)
+                    //            {
+                    //                barang += item.Nama;
+                    //            }
+                    //            else
+                    //            {
+                    //                barang += ", " + item.Nama;
+                    //            }
+                    //        }
+                    //        barangBarang.Add(barang);
+                    //    }
 
-                    }
+                    //}
 
                     var startDate = (DateTime)await REQUEST.MinAsync(x => x.CreatedDate);
                     var endDate = (DateTime)await REQUEST.MaxAsync(x => x.CreatedDate);
@@ -284,6 +289,10 @@ namespace InventoryControl.Areas.INV.Controllers
                                 CreatedDate = DateTime.Now,
                                 CreatedBy = Guid.Parse(currUser),
                                 KdOrg = kdOrg,
+                                Rules = iSet.Rules,
+                                SupportAUB = iSet.SupportAUB,
+                                Confidence = iSet.Confidence,
+                                SupportA = iSet.SupportA,
                                 AprioriBidangItem = new List<AprioriBidangItem>()
                             };
 
@@ -317,7 +326,8 @@ namespace InventoryControl.Areas.INV.Controllers
                 }
 
                 var data = _context.AprioriBidang.Include(x => x.AprioriBidangItem).ThenInclude(x => x.MstItem).Where(x => x.KdOrg == kdOrg);
-                return Ok(data);
+                //return Ok(data);
+                return RedirectToAction("Index", "Apriori", new { Area = "INV" });
             }
             catch(Exception ex)
             {
@@ -422,7 +432,8 @@ namespace InventoryControl.Areas.INV.Controllers
             int totalSet = 0;
             foreach (var first in itemSets)
             {
-                var myItem = first.Keys.Where(a => a.ToString() == set);
+                //var myItem = first.Keys.Where(a => a.ToString() == set);
+                var myItem = first.Keys.Where(a => a.Any(b => b.ToString() == set));
                 if (myItem.Count() > 0)
                 {
                     first.TryGetValue(myItem.FirstOrDefault(), out totalSet);

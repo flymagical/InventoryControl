@@ -1,41 +1,46 @@
-﻿@model List<InventoryControl.Models.RequestHeader>
+﻿@model InventoryControl.Models.Components.PaginatedList<InventoryControl.Data.Views.vw_Request>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewData["Title"] = "Permintaan Bidang";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Tanggal Pengeluaran</th>
-            <th>Penerima</th>
-            <th>Status</th>
-            <th>Item Barang</th>
+<div class="card" id="card-request">
+    <div class="card-body">
+        <table style="width:100%;table-layout:fixed;">
+            <thead>
+                <tr>
+                    <th style="width:20%;">Tanggal Permintaan</th>
+                    <th style="width:80%;">Item yang diminta</th>
+                </tr>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.CreatedDate?.ToString("dd-MM-yyyy")</td>
-                <td>@item.UserName</td>
-                @if (item.StatusId == 1)
+                @foreach (var item in Model.OrderByDescending(x => x.CreatedDate))
                 {
-                    <td><span class="badge-danger">Usulan</span></td>
+                    <tr>
+                        <td style="width:20%;" class="_center">@item.StrCreatedDate</td>
+                        <td style="width:80%;">@item.ItemList</td>
+                    </tr>
                 }
-                else if (item.StatusId == 2)
-                {
-                    <td><span class="badge-success">Disetujui</span></td>
-                }
-                <td> </td>
-
-            </tr>
+            </thead>
+        </table>
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
         }
-    </tbody>
+        <div class="pager">
+            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" class="btn btn-default @prevDisabled">Previous</a>
+            <span class="devider"></span>
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
 
-</table>
+    </div>
+</div>
 
 @section Scripts{
     <script type="text/javascript">

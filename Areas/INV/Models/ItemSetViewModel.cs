@@ -10,5 +10,9 @@ namespace InventoryControl.Areas.INV.Models
         public string Label { get; set; }
         public int Support { get; set; }
         public string ListBarang { get; set; }
+        public string Rules { get; set; }
+        public int SupportAUB { get; set; }
+        public int SupportA { get; set; }
+        public decimal? Confidence { get; set; }
     }
 }

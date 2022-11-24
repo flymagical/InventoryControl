@@ -29,15 +29,18 @@ namespace InventoryControl.Areas.INV.Controllers
         {
             pageNumber = pageNumber ?? 1;
             ViewBag.ActiveClass = "link-apriori";
-            var item = _context.vw_Request.Select(x => new vw_Request
+            var item = _context.vw_AprioriBidang.Select(x => new vw_AprioriBidang
             {
                 Id = x.Id,
                 CreatedDate = x.CreatedDate,
                 ItemList = x.ItemList,
+                Nama = x.Nama,
+                Label = x.Label,
+                Support = x.Support,
                 StrCreatedDate = _commonService.GetSimpleIndonesianDateFormat(x.CreatedDate.Value)
             });
 
-            var model = await PaginatedList<vw_Request>.CreateAsync(item.AsNoTracking(), pageNumber ?? 1, pageSize);
+            var model = await PaginatedList<vw_AprioriBidang>.CreateAsync(item.AsNoTracking(), pageNumber ?? 1, pageSize);
 
             ViewBag.SelectBidang = _context.MstUnitOrg.Select(x => new { x.Id, x.Nama });
             return View(model);
