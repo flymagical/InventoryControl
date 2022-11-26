@@ -29,11 +29,16 @@ namespace InventoryControl.Areas.INV.Controllers
         {
             ViewBag.ActiveClass = "link-movingaverage";
             ViewBag.SelectBidang = _context.MstUnitOrg.Select(x => new { x.Id, x.Nama });
+            string defaultKdOrg = _context.MstUnitOrg.FirstOrDefaultAsync().Result.Id;
+            int maxYear = _context.vw_Monthly_Request.Max(x => x.Tahun).Value;
+            int maxMonth = _context.vw_Monthly_Request.Max(x => x.Bulan).Value;
+
             var model = new MAViewModel
             {
                 PrevMonth = 3,
                 PredMonth = 3,
-                DefaultKdOrg = _context.MstUnitOrg.FirstOrDefaultAsync().Result.Id
+                LastMonth = maxMonth.ToString().PadLeft(2,'0')+"-"+maxYear.ToString(),
+                DefaultKdOrg = defaultKdOrg
             };
             return View(model);
         }

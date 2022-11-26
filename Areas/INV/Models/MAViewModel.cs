@@ -10,5 +10,6 @@ namespace InventoryControl.Areas.INV.Models
         public int PrevMonth { get; set; }
         public int PredMonth { get; set; }
         public string DefaultKdOrg { get; set; }
+        public string LastMonth { get; set; }
     }
 }

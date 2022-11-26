@@ -184,6 +184,7 @@ input {
 button{
     border-style:solid !important;
     font-family:monserrat;
+    cursor:pointer;
 }
 
 .disabled {
@@ -244,6 +245,22 @@ button{
 ._20 {
     width: 20%;
 }
+._30 {
+    width: 30%;
+}
+._40 {
+    width: 40%;
+}
+._50 {
+    width: 50%;
+}
+._60 {
+    width: 60%;
+}
+._80 {
+    width: 80%;
+}
+
 
 .form-control {
     display: block;

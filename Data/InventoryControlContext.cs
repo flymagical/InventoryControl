@@ -20,6 +20,7 @@ namespace InventoryControl.Data
         public DbSet<RequestItem> RequestItem { get; set; }
         public DbSet<AprioriBidang> AprioriBidang { get; set; }
         public DbSet<AprioriBidangItem> AprioriBidangItem { get; set; }
+        public DbSet<MovingAverageBidang> MovingAverageBidang { get; set; }
 
         #endregion
 
@@ -28,6 +29,7 @@ namespace InventoryControl.Data
         public DbSet<vw_FrequentItem> vw_FrequentItem { get; set; }
         public DbSet<vw_Support> vw_Support { get; set; }
         public DbSet<vw_AprioriBidang> vw_AprioriBidang { get; set; }
+        public DbSet<vw_Monthly_Request> vw_Monthly_Request { get; set; }
 
         #endregion
 
@@ -112,6 +114,11 @@ namespace InventoryControl.Data
                 entity.HasIndex(x => x.Id);
             });
 
+            modelBuilder.Entity<MovingAverageBidang>(entity => {
+                entity.HasKey(x => x.Id);
+                entity.HasIndex(x => x.Id);
+            });
+
             modelBuilder.Entity<AprioriBidangItem>(entity => {
                 entity.HasKey(x => x.Id);
                 entity.HasIndex(x => x.Id);
@@ -146,6 +153,11 @@ namespace InventoryControl.Data
             });
 
             modelBuilder.Entity<vw_AprioriBidang>(entity => {
+                entity.HasKey(x => x.Id);
+                entity.HasIndex(x => x.Id);
+            });
+
+            modelBuilder.Entity<vw_Monthly_Request>(entity => {
                 entity.HasKey(x => x.Id);
                 entity.HasIndex(x => x.Id);
             });
