@@ -1,0 +1,39 @@
+﻿@model List<InventoryControl.Models.AprioriBidang>
+
+<table>
+    <thead>
+        <tr>
+            <th>Label</th>
+            <th>Support</th>
+            <th>Rules</th>
+            <th>Support AUB</th>
+            <th>Support A</th>
+            <th>Confidence</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
+        {
+            @foreach (var iItem in Model)
+            {
+                <tr>
+                    <td>@iItem.Label</td>
+                    <td>@iItem.Support</td>
+                    <td>@iItem.Rules</td>
+                    <td>@iItem.SupportAUB</td>
+                    <td>@iItem.SupportA</td>
+                    <td>@iItem.Confidence</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td style="width:20%;height:50px" class="_center" colspan="6"><span class="text-danger">Tidak Ada Data</span> </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

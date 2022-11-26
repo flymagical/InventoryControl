@@ -23,6 +23,7 @@ using InventoryControl.Areas.INV.Models;
 using InventoryControl.Data.Views;
 using InventoryControl.Models;
 using InventoryControl.Controllers;
+using InventoryControl.Services;
 
 namespace InventoryControl.Areas.INV.Controllers
 {
@@ -33,10 +34,12 @@ namespace InventoryControl.Areas.INV.Controllers
     {
         public readonly InventoryControlContext _context;
         public List<ItemSetViewModel> itemSets;
+        public CommonService _commonService { get; set; }
         public ApiAprioriController(InventoryControlContext context)
         {
             _context = context;
             itemSets = new List<ItemSetViewModel>();
+            _commonService = new CommonService(_context);
         }
 
         [HttpPost]
@@ -181,7 +184,6 @@ namespace InventoryControl.Areas.INV.Controllers
                 throw ex;
             }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> ProsesApriori(int? minsupport = 0, int? minconfidence = 0, string kdOrg = "", bool isForce = true)
@@ -337,6 +339,75 @@ namespace InventoryControl.Areas.INV.Controllers
             
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetSupport(int minSupport, int minConfidence, string kdOrg)
+        {
+            try
+            {
+                var item = _context.vw_AprioriBidang.Where(x => x.KdOrg == kdOrg).Select(x => new vw_AprioriBidang
+                {
+                    Id = x.Id,
+                    CreatedDate = x.CreatedDate,
+                    ItemList = x.ItemList,
+                    Nama = x.Nama,
+                    Label = x.Label,
+                    Support = x.Support,
+                    StrCreatedDate = _commonService.GetSimpleIndonesianDateFormat(x.CreatedDate.Value)
+                });
+                return PartialView("~/Areas/INV/Views/Apriori/_PartialSupport.cshtml", item.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRules(string kdOrg)
+        {
+            try
+            {
+                var aprioriBidang = _context.AprioriBidang.Where(x => x.KdOrg == kdOrg && x.Rules != null);
+                var MSTITEM = _context.MstItem;
+                foreach(var iItem in aprioriBidang)
+                {
+                    var rules = iItem.Rules.Replace(" ", "");
+                    string newRules = "";
+                    string[] itemRules = rules.Split("=>");
+                    List<string> newItemRules = new List<string>(rules.Split("=>")).Where(x => x != "").ToList();
+
+                    int index = 1;
+                    foreach(var iItemRule in newItemRules)
+                    {
+                        string[] itemItem = iItemRule.Split(",");
+                        List<string> itemName = new List<string>();
+                        foreach(var i in itemItem)
+                        {
+                            var modelItem = await MSTITEM.SingleOrDefaultAsync(x => x.Id.ToString() == i.Trim());
+                            itemName.Add(modelItem?.Nama);
+                        }
+                        if(index < newItemRules.Count())
+                        {
+                            newRules += String.Join(",", itemName)+" => ";
+                        }
+                        else
+                        {
+                            newRules += String.Join(",", itemName);
+                        }
+                        index++;
+                    }
+
+                    iItem.Rules = newRules;
+                }
+
+                return PartialView("~/Areas/INV/Views/Apriori/_PartialRules.cshtml", aprioriBidang.ToList());
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         public ItemSetViewModel GetItemSet(int length, int minsupport, IEnumerable<Guid> mstitem, IQueryable<RequestHeader> REQUEST, bool candidates = false)
         {
             
@@ -377,6 +448,7 @@ namespace InventoryControl.Areas.INV.Controllers
 
             return itemSet;
         }
+
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
         {
             int i = 0;

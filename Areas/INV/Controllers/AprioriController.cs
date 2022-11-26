@@ -1,4 +1,5 @@
-﻿using InventoryControl.Controllers;
+﻿using InventoryControl.Areas.INV.Models;
+using InventoryControl.Controllers;
 using InventoryControl.Data;
 using InventoryControl.Data.Views;
 using InventoryControl.Models.Components;
@@ -27,22 +28,28 @@ namespace InventoryControl.Areas.INV.Controllers
         }
         public async Task<IActionResult> Index(int? pageNumber)
         {
-            pageNumber = pageNumber ?? 1;
+            //pageNumber = pageNumber ?? 1;
+            //ViewBag.ActiveClass = "link-apriori";
+            //var item = _context.vw_AprioriBidang.Select(x => new vw_AprioriBidang
+            //{
+            //    Id = x.Id,
+            //    CreatedDate = x.CreatedDate,
+            //    ItemList = x.ItemList,
+            //    Nama = x.Nama,
+            //    Label = x.Label,
+            //    Support = x.Support,
+            //    StrCreatedDate = _commonService.GetSimpleIndonesianDateFormat(x.CreatedDate.Value)
+            //});
+
+            //var model = await PaginatedList<vw_AprioriBidang>.CreateAsync(item.AsNoTracking(), pageNumber ?? 1, pageSize);
             ViewBag.ActiveClass = "link-apriori";
-            var item = _context.vw_AprioriBidang.Select(x => new vw_AprioriBidang
-            {
-                Id = x.Id,
-                CreatedDate = x.CreatedDate,
-                ItemList = x.ItemList,
-                Nama = x.Nama,
-                Label = x.Label,
-                Support = x.Support,
-                StrCreatedDate = _commonService.GetSimpleIndonesianDateFormat(x.CreatedDate.Value)
-            });
-
-            var model = await PaginatedList<vw_AprioriBidang>.CreateAsync(item.AsNoTracking(), pageNumber ?? 1, pageSize);
-
             ViewBag.SelectBidang = _context.MstUnitOrg.Select(x => new { x.Id, x.Nama });
+            var model = new AprioriViewModel
+            {
+                MinSupport = 2,
+                MinConfidence = 60,
+                DefaultKdOrg = _context.MstUnitOrg.FirstOrDefaultAsync().Result.Id
+            };
             return View(model);
         }
     }

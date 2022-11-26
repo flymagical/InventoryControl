@@ -254,9 +254,10 @@ button{
     height: 40px;
     color: #ffffff;
     background-color: #86134c;
-    padding: 5px 10px 5px 10px;
+    padding: 5px 20px 5px 20px;
     border-color: #86134c;
     border-radius: 25px;
+    font-size: 16px;
 }
 
 .pager {
@@ -265,4 +266,13 @@ button{
 
 .devider {
     margin-left: 20px;
+}
+
+.card-header .card-title h2 {
+    color: #86134c;
+}
+
+span.text-danger {
+    color: #ea5455;
+    font-weight: bold;
 }

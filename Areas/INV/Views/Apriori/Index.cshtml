@@ -1,4 +1,4 @@
-﻿@model InventoryControl.Models.Components.PaginatedList<InventoryControl.Data.Views.vw_AprioriBidang>
+﻿@model InventoryControl.Areas.INV.Models.AprioriViewModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Proses Apriori";
@@ -12,13 +12,13 @@
         <div class="card-form">
             <div class="card-label _20">Min Support </div>
             <div class="form-control _80">
-                : <input type="text" id="txt-minsupport" value="2"/>
+                : <input type="text" id="txt-minsupport" value="@Model.MinSupport"/>
             </div>
         </div>
         <div class="card-form">
             <div class="card-label _20">Min Confidence </div>
             <div class="form-control _80">
-                : <input type="text" id="txt-minconfidence" value="60"/>
+                : <input type="text" id="txt-minconfidence" value="@Model.MinConfidence"/>
             </div>
         </div>
         <div class="card-form">
@@ -30,40 +30,36 @@
         <div class="card-form">
             <div class="card-label _20"></div>
             <div class="card-label _80">
-                <button type="button" class="btn btn-info" id="btn-proses">Proses Dengan Apriori</button>
+                <div style="flex">
+                    <button type="button" class="btn btn-success" id="btn-show">Lihat Data</button>
+                    <button type="button" class="btn btn-info" id="btn-proses">Proses Dengan Apriori</button>
+                </div>
+                
             </div>
         </div>
     </div>
 </div>
 
 <div class="card">
-    <div class="card-body">
-        <table id="tbl-support">
-            <thead>
-                <tr>
-                    <th>Bidang</th>
-                    <th>Tanggal Di-generate</th>
-                    <th>Daftar Barang</th>
-                    <th>Label</th>
-                    <th>Support</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.OrderByDescending(x => x.Label))
-                {
-                    <tr>
-                        <td style="width:20%;" class="_center">@item.Nama</td>
-                        <td style="width:10%;" class="_center">@item.StrCreatedDate</td>
-                        <td style="width:50%;">@item.ItemList</td>
-                        <td style="width:10%;">@item.Label</td>
-                        <td style="width:10%;">@item.Support</td>
-                    </tr>
-                }
-            </tbody>
-            
-        </table>
+    <div class="card-header">
+        <div class="card-title">
+            <h2>Support Count</h2>
+        </div>
+    </div>
+    <div class="card-body" id="tbl-support">
+        
     </div>
 </div>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h2>Association Rules</h2>
+        </div>
+    </div>
+    <div class="card-body" id="tbl-rules">
+    </div>
+</div>
+
 
 @section Styles{
     <style>
@@ -102,6 +98,20 @@
 
 @section Scripts{
     <script type="text/javascript">
+        var defaultKdOrg = "@Model.DefaultKdOrg";
+        var minSupport = parseInt("@Model.MinSupport");
+        var minConfidence = parseInt("@Model.MinConfidence");
+
+        getSupport(minSupport, minConfidence, defaultKdOrg);
+        getRules(defaultKdOrg);
+
+        $("#btn-show").click(function () {
+            var minsupport = $("#txt-minsupport").val();
+            var minconfidence = $("#txt-minconfidence").val();
+            var kdOrg = $("#KdOrg").val();
+            getSupport(minSupport, minConfidence, kdOrg);
+            getRules(kdOrg);
+        });
 
         $("#btn-proses").click(function () {
             var minsupport = $("#txt-minsupport").val();
@@ -129,11 +139,13 @@
                 .done(function (result) {
                     stopBusyIndicator();
                     console.log(result);
-                    $("#tbl-support tbody").html("");
+                    $("#tbl-support").html("");
                     result.forEach(function (item) {
-                        
+
                         $("#tbl-support").append("<tr><td>" + $("#KdOrg option:selected").text() + "</td><td>" + item.startDate + "</td><td>" + item.itemList + "</td><td>" + item.label + "</td><td>" + item.support + "</td></tr>");
                     })
+
+                    getRules(kdOrg);
                 });
             }
 
@@ -141,6 +153,43 @@
 
         $("#@ViewBag.ActiveClass").addClass("active");
 
+        function getSupport(minSupport, minConfidence, kdOrg) {
+            //showBusyIndicator("body");
+            $.ajax({
+                url: '/INV/ApiApriori/GetSupport/',
+                method: "GET",
+                data:
+                {
+                    minSupport: minSupport,
+                    minConfidence: minConfidence,
+                    kdOrg: kdOrg
+                }
+            })
+                .done(function (result) {
+                    //stopBusyIndicator();
+                    console.log(result);
+                    $("#tbl-support").html("");
+                    $("#tbl-support").append(result);
+                });
+        }
+
+        function getRules(kdOrg) {
+            //showBusyIndicator("body");
+            $.ajax({
+                url: '/INV/ApiApriori/GetRules/',
+                method: "GET",
+                data:
+                {
+                    kdOrg: kdOrg
+                }
+            })
+                .done(function (result) {
+                    //stopBusyIndicator();
+                    console.log(result);
+                    $("#tbl-rules").html("");
+                    $("#tbl-rules").append(result);
+                });
+        }
 
     </script>
 }

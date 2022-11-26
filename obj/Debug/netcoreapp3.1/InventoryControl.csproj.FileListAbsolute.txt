@@ -327,3 +327,6 @@ D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Pages\_View
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_MainLayout.cshtml.g.cs
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\Index.cshtml.g.cs
 D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\UAParser.dll
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialRules.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialSupport.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\Index.cshtml.g.cs
