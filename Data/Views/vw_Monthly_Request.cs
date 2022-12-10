@@ -8,6 +8,7 @@ namespace InventoryControl.Data.Views
 {
     public class vw_Monthly_Request
     {
+        public Int64 KodeMR { get; set; }
         public Guid Id { get; set; }
         public string Nama { get; set; }
         public Guid SatuanId { get; set; }

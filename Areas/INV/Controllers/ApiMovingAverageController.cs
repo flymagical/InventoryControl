@@ -3,6 +3,7 @@ using InventoryControl.Data.Views;
 using InventoryControl.Models;
 using InventoryControl.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,18 +45,29 @@ namespace InventoryControl.Areas.INV.Controllers
 
                     var startIndex = startPeriod.Year * startPeriod.Month;
 
+                    //supportCount from Apriori Calculation
+                    var supportCount = _context.AprioriBidang
+                                        .Include(x => x.AprioriBidangItem)
+                                        .Where(x => x.KdOrg == kdOrg)
+                                        .SelectMany(x => x.AprioriBidangItem);
+
                     var data = MONTHLYREQUEST
                                 .Where(x => x.KdOrg == kdOrg)
+                                /*
+                                 * Implement item selection based on output of Apriori (SUPPORT COUNT)
+                                 * **/
+                                .Where(x => supportCount.Select(y => y.ItemId.ToString()).Contains(x.Id.ToString()))
+                                /* --------------------------------------------------------------------------------- */
                                 .OrderByDescending(x => x.ItemIndex)
-                                .Where(x => x.ItemIndex >= startIndex)
-                                .Take(prevMonth ?? 0);
+                                .Where(x => x.ItemIndex >= startIndex);
+                                //.Take((prevMonth* supportCount.Count()) ?? 0);
 
                     var uniqueItem = MONTHLYREQUEST.Select(x => x.Id).Distinct();
                     var newUniqueItem = new List<Guid>();
                     foreach(var iItem in uniqueItem)
                     {
                         var selectedItem = data.Where(x => x.Id == iItem);
-                        if (selectedItem.Count() == prevMonth)
+                        if (selectedItem.Count() == prevMonth)        
                         {
                             listOfCompleteItems.AddRange(selectedItem);
                             newUniqueItem.Add(iItem);
@@ -119,6 +131,35 @@ namespace InventoryControl.Areas.INV.Controllers
             }
 
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPredictedItem(int prevMonth, int predMonth, string kdOrg)
+        {
+            try
+            {
+                DateTime maxPeriod = _context.RequestHeader.Max(x => x.CreatedDate).Value;
+                DateTime newPeriod = new DateTime(maxPeriod.Year, maxPeriod.Month, 1);
+
+
+                DateTime startDate = newPeriod.AddMonths(1);
+                DateTime endDateTemp = newPeriod.AddMonths(predMonth);
+                DateTime endDate = new DateTime(endDateTemp.Year, endDateTemp.Month, DateTime.DaysInMonth(endDateTemp.Year, endDateTemp.Month));
+
+
+
+
+                //var item = _context.vw_PredictedItem.Where(x => x.KdOrg == kdOrg && new DateTime(x.Tahun, x.Bulan, 1) >= startDate && new DateTime(x.Tahun, x.Bulan, 1) <= endDate)
+                ;
+
+                var item = _context.vw_PredictedItem.Where(x => x.KdOrg == kdOrg && x.TempDate >= startDate && x.TempDate <= endDate).OrderBy(x => x.Tahun).ThenBy(x => x.Bulan)
+                ;
+                return PartialView("~/Areas/INV/Views/MovingAverage/_PartialPredictedItem.cshtml", item.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

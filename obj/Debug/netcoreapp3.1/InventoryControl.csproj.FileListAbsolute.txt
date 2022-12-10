@@ -330,3 +330,9 @@ D:\i-Works\i-Projects\InventoryControl\bin\Debug\netcoreapp3.1\UAParser.dll
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialRules.cshtml.g.cs
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialSupport.cshtml.g.cs
 D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\Index.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\bin\Debug\netcoreapp3.1\UAParser.dll
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\Index.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialRules.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialSupport.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\Index.cshtml.g.cs
+D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\_PartialPredictedItem.cshtml.g.cs

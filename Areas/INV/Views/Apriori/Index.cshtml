@@ -40,6 +40,11 @@
     </div>
 </div>
 
+<div class="alert-danger" style="display:none;">
+    <i class="fa fa-warning"></i> Peringatan!<br />
+    <div class="alert-body">Test</div>
+</div>
+
 <div class="card">
     <div class="card-header">
         <div class="card-title">
@@ -134,16 +139,25 @@
                         minconfidence: minconfidence,
                         kdOrg: kdOrg,
                         isForce: true
+                    },
+                    error: function (request, status, error) {
+                        stopBusyIndicator();
+                        $(".alert-body").html(error);
+                        $(".alert-danger").show();
                     }
                 })
                 .done(function (result) {
                     stopBusyIndicator();
                     console.log(result);
-                    $("#tbl-support").html("");
-                    result.forEach(function (item) {
+                    $("#tbl-support").html(result);
 
-                        $("#tbl-support").append("<tr><td>" + $("#KdOrg option:selected").text() + "</td><td>" + item.startDate + "</td><td>" + item.itemList + "</td><td>" + item.label + "</td><td>" + item.support + "</td></tr>");
-                    })
+                    //if (result) {
+                    //    result.forEach(function (item) {
+
+                    //        $("#tbl-support").append("<tr><td>" + $("#KdOrg option:selected").text() + "</td><td>" + item.startDate + "</td><td>" + item.itemList + "</td><td>" + item.label + "</td><td>" + item.support + "</td></tr>");
+                    //    })
+                    //}
+                    
 
                     getRules(kdOrg);
                 });

@@ -30,6 +30,8 @@ namespace InventoryControl.Data
         public DbSet<vw_Support> vw_Support { get; set; }
         public DbSet<vw_AprioriBidang> vw_AprioriBidang { get; set; }
         public DbSet<vw_Monthly_Request> vw_Monthly_Request { get; set; }
+        public DbSet<vw_PredictedItem> vw_PredictedItem { get; set; }
+
 
         #endregion
 
@@ -158,9 +160,15 @@ namespace InventoryControl.Data
             });
 
             modelBuilder.Entity<vw_Monthly_Request>(entity => {
+                entity.HasKey(x => x.KodeMR);
+                entity.HasIndex(x => x.KodeMR);
+            });
+           
+            modelBuilder.Entity<vw_PredictedItem>(entity => {
                 entity.HasKey(x => x.Id);
                 entity.HasIndex(x => x.Id);
             });
+
             #endregion
         }
 
