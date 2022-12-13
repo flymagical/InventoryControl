@@ -29,7 +29,7 @@ namespace InventoryControl.Areas.INV.Controllers
         {
             pageNumber = pageNumber ?? 1;
             ViewBag.ActiveClass = "link-permintaan";
-            var item = _context.vw_Request.Select(x => new vw_Request
+            var item = _context.vw_Request.OrderByDescending(x => x.CreatedDate).Select(x => new vw_Request
             {
                 Id = x.Id,
                 CreatedDate = x.CreatedDate,

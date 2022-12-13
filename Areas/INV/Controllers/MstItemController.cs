@@ -1,5 +1,7 @@
 ﻿using InventoryControl.Controllers;
 using InventoryControl.Data;
+using InventoryControl.Models;
+using InventoryControl.Models.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,18 +16,22 @@ namespace InventoryControl.Areas.INV.Controllers
     public class MstItemController : BaseController
     {
         public readonly InventoryControlContext _context;
+        public int pageSize { get; set; }
         public MstItemController(InventoryControlContext context)
         {
             
             _context = context;
+            pageSize = 10;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            var mstItem = await _context.MstItem
-                          .Include(x => x.MstSatuan)
-                          .ToListAsync();
+            pageNumber = pageNumber ?? 1;
+            var mstItem = _context.MstItem
+                          .Include(x => x.MstSatuan);
+                          //.ToListAsync();
             ViewBag.ActiveClass = "link-barang";
-            return View(mstItem);
+            var model = await PaginatedList<MstItem>.CreateAsync(mstItem.AsNoTracking(), pageNumber ?? 1, pageSize);
+            return View(model);
         }
     }
 }

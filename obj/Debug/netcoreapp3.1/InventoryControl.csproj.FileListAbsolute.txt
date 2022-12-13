@@ -336,3 +336,4 @@ D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\I
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\Apriori\_PartialSupport.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\Index.cshtml.g.cs
 D:\KULIAH\Skripsi\Project\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\_PartialPredictedItem.cshtml.g.cs
+D:\i-Works\i-Projects\InventoryControl\obj\Debug\netcoreapp3.1\Razor\Areas\INV\Views\MovingAverage\_PartialPredictedItem.cshtml.g.cs

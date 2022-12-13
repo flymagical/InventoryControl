@@ -1,32 +1,52 @@
-﻿@model List<InventoryControl.Models.MstItem>
+﻿@model InventoryControl.Models.Components.PaginatedList<InventoryControl.Models.MstItem>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewData["Title"] = "Master Barang";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
 <h1>@ViewData["Title"]</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Nama Barang</th>
-            <th>Satuan</th>
-            <th>Tanggal Barang Masuk</th>
-            <th>Dibuat Oleh</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mstItem in Model)
-        {
-            <tr>
-                <td>@mstItem.Nama</td>
-                <td>@mstItem.MstSatuan.Nama</td>
-                <td>@mstItem.CreatedDate?.ToString("dd-MM-yyyy")</td>
-                <td>@mstItem.CreatedBy</td>
-            </tr>
-        }
-    </tbody>
+<div class="card" id="card-request">
+    <div class="card-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Barang</th>
+                    <th>Satuan</th>
+                    <th>Tanggal Barang Masuk</th>
+                    <th>Dibuat Oleh</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mstItem in Model)
+                {
+                    <tr>
+                        <td>@mstItem.Nama</td>
+                        <td>@mstItem.MstSatuan.Nama</td>
+                        <td>@mstItem.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                        <td>@mstItem.CreatedBy</td>
+                    </tr>
+                }
+            </tbody>
 
-</table>
+        </table>
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+        <div class="pager">
+            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)" class="btn btn-default @prevDisabled">Previous</a>
+            <span class="devider"></span>
+            <a asp-action="Index"
+               asp-route-pageNumber="@(Model.PageIndex + 1)"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts{
     <script type="text/javascript">

@@ -33,6 +33,7 @@ namespace InventoryControl.Areas.INV.Controllers
             {
                 if (isForce == true)
                 {
+                    var MOVINGAVERAGEBIDANG = _context.MovingAverageBidang;
                     var MSTITEM = _context.MstItem;
                     var MONTHLYREQUEST = _context.vw_Monthly_Request;
 
@@ -104,6 +105,11 @@ namespace InventoryControl.Areas.INV.Controllers
 
                             newRequest.JumlahTotalItem = (int)(newData.Sum(x => x.JumlahTotalItem)/predMonth);
 
+                            var existingMAB = MOVINGAVERAGEBIDANG.Where(x => x.ItemId == iList && x.Bulan == currPeriod.Month && x.Tahun == currPeriod.Year && x.KdOrg == kdOrg);
+
+                            if (existingMAB.Count() > 0)
+                                _context.MovingAverageBidang.RemoveRange(existingMAB);
+
                             var newMAB = new MovingAverageBidang
                             {
                                 Id = Guid.NewGuid(),
@@ -123,7 +129,7 @@ namespace InventoryControl.Areas.INV.Controllers
                     }
                 }
                     
-                return RedirectToAction("Index", "MovingAverage", new { Area = "INV" });
+                return Ok();
             }
             catch (Exception ex)
             {

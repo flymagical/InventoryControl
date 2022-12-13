@@ -95,3 +95,17 @@ label {
     margin: -1.1rem auto 0 auto;
     width: 89px;
 }
+
+span.text-danger {
+    color: #ea5455;
+    font-weight: bold;
+}
+
+.alert-danger {
+    width: 90%;
+    background-color: #ea5455;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    color: white;
+}

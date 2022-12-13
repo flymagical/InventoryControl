@@ -65,7 +65,7 @@ namespace InventoryControl.Controllers
                     HttpContext.Session.SetString("AuthId", authId);
                     
                     //var responseExist = await AccessingUserService(ActionType.GetSingleLogin, ServiceType.GET, model);
-                    var userExist = _context.MstUser.SingleOrDefault(x => x.Id == user.Id && x.Password == SecurityHelper.Encrypt(user.Password));
+                    var userExist = _context.MstUser.SingleOrDefault(x => x.Nama == user.Nama && x.Password == SecurityHelper.Encrypt(user.Password));
 
                     if (userExist != null)
                     {
@@ -88,7 +88,7 @@ namespace InventoryControl.Controllers
                     }
                     else
                     {
-                        ViewBag.Message = "Incorrect username or password";
+                        ViewBag.Message = "Username atau Password salah!";
                     }
 
                 }

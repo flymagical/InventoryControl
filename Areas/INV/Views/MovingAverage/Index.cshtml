@@ -91,7 +91,7 @@
                     .done(function (result) {
                         stopBusyIndicator();
                         console.log(result);
-                        $("#tbl-support").html("");
+                        getPredictedItem(prevMonth, predMonth, kdOrg);
 
                     });
             }

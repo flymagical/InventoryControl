@@ -8,12 +8,18 @@
             <h2>@ViewData["Title"]</h2>
             <div class="underline-title"></div>
         </div>
+
+        <div class="alert-danger" style="display:none;">
+            <i class="fa fa-warning"></i> Peringatan!<br />
+            <div class="alert-body">Test</div>
+        </div>
+
         <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Login" class="form">
             <input type="hidden" value="@ViewBag.ReturnUrl" asp-for="ReturnURL" />
             <label for="user-username" style="padding-top:13px">
                 &nbsp;Username
             </label>
-            <input class="form-content" autocomplete="on" asp-for="Id" required />
+            <input class="form-content" autocomplete="on" asp-for="Nama" required />
             <div class="form-border"></div>
             <label for="user-password" style="padding-top:22px">
                 &nbsp;Password
@@ -43,6 +49,12 @@
     }
 
     var windowHeight = $(window).height();
-    $("body").css("min-height", windowHeight + "px");
+        $("body").css("min-height", windowHeight + "px");
+
+        if ("@ViewBag.Message" != "null" && "@ViewBag.Message" != "") {
+            $(".alert-danger").show();
+            $(".alert-body").html("@ViewBag.Message");
+
+        }
     </script>
 }
